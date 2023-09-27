@@ -11,26 +11,30 @@ import TextField from '@mui/material/TextField';
 // properties addCoure is required, function called when Add clicked.
 function AddStudent(props) { 
 
-    const [open, setOpen] = useState(false);
-    const [student_name, setStudent_name] = useState(0);
-    const [student_email, setStudent_email] = useState(0);
-  
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+  const [open, setOpen] = useState(false);
+  const [student, setStudent] = useState({name: '', email: ''});
+  const [message, setMessage] = useState(' ');  // status message
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+  const handleClickOpen = () => {
+    setMessage(' ');
+    setStudent({name: '', email: ''});
+    setOpen(true);
+  };
 
-    const handleChange = (event) => {
-        setStudent_name(event.target.value);
-        setStudent_email(event.target.value);
-    }
+  const handleClose = () => {
+      setOpen(false);
+  };
+
+  const handleChange = (event) => {
+      setStudent({
+        ...student, 
+        [event.target.name]: event.target.value
+      });
+  }
 
 // Save student and close modal form
   const handleAdd = () => {
-      props.addStudent(student_name,student_email);
+    props.addStudent(student);
       handleClose();
   }
 
@@ -42,8 +46,8 @@ function AddStudent(props) {
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Add Student</DialogTitle>
             <DialogContent  style={{paddingTop: 20}} >
-                <TextField id="studentName" autoFocus fullWidth label="Student Name" name="student_name" onChange={handleChange}  /> 
-                <TextField id="studentEmail" autoFocus fullWidth label="Student Email" name="student_email" onChange={handleChange}  />  
+                <TextField autoFocus fullWidth label="name" name="name" onChange={handleChange}  /> 
+                <TextField autoFocus fullWidth label="email" name="email" onChange={handleChange}  />  
             </DialogContent>
             <DialogActions>
               <Button color="secondary" onClick={handleClose}>Cancel</Button>
@@ -52,11 +56,6 @@ function AddStudent(props) {
           </Dialog>      
       </div>
   ); 
-}
-
-// required property:  addStudent is a function to call to perform the Add action
-AddStudent.propTypes = {
-  addStudent : PropTypes.func.isRequired
 }
 
 export default AddStudent;
