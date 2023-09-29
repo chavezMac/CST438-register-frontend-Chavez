@@ -74,9 +74,27 @@ const AdminHome = ()  => {
             console.log("dropStudent ok");
             setMessage("Student dropped.");
             fetchStudents();
-          } else {
-            console.log('error dropStudent ' + res.status);
-            setMessage("Error. "+res.status);
+          }else if(res.status == 400){
+            if(window.confirm("Do you want to force delete this student?")) {
+              fetch(`${SERVER_URL}/student/${student_id}?force=yes`,
+              {
+                method: 'DELETE',
+              }
+              )
+              .then(res => {
+                if(res.ok) {
+                  console.log("dropStudent ok");
+                  setMessage("Student forcibly dropped.");
+                  fetchStudents();
+                }else {
+                  console.log('error dropStudent ' + res.status);
+                  setMessage("Error in force delete. "+res.status);
+                }
+              })
+            }else {
+              console.log('error dropStudent ' + res.status);
+              setMessage("Error. "+res.status);
+            }
           }
         })
         .catch(err => {
@@ -84,7 +102,6 @@ const AdminHome = ()  => {
           setMessage("Exception. "+err);
         });
       }
-     
     };
 
     const editStudent = (student) => {
