@@ -38,6 +38,24 @@ const AdminHome = ()  => {
     */
     const addStudent = (student) => {
       setMessage(' ');
+      if(student.email.length < 3 || student.email.indexOf('@') < 1 || student.email.indexOf('.') < 1) {
+        setMessage('Error: Please enter a valid email address');
+        return;
+      }
+      
+      if(student.name.length < 1) {
+        setMessage('Error: Please enter a valid name');
+        return;
+      }
+
+      for(let i = 0; i < students.length; i++) {
+        if(students[i].email === student.email && students[i].id != studentID) {
+          setMessage('Error: Email already exists');
+          return;
+        }
+      }
+
+
       fetch(SERVER_URL + '/student',
       { method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -107,6 +125,14 @@ const AdminHome = ()  => {
     const editStudent = (student) => {
       setMessage('');
       console.log("In ediStudent... "+ studentID);
+      
+      for(let i = 0; i < students.length; i++) {
+        if(students[i].email === student.email && students[i].id != studentID) {
+          setMessage('Error: Email already exists');
+          return;
+        }
+      }
+
       fetch(`${SERVER_URL}/student/${studentID}`, {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
