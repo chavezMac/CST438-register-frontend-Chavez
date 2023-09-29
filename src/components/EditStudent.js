@@ -11,12 +11,12 @@ import {SERVER_URL} from '../constants';
 const EditStudent = (props)  => {
 
     const [open, setOpen] = useState(false);
-    const [student, setStudent] = useState({name: '', email: ''});
+    const [student, setStudent] = useState({name: '', email: '',status: ''});
     const [message, setMessage] = useState(' ');  // status message
 
     const handleClickOpen = () => {
         setMessage(' ');
-        setStudent({name: '', email: ''});
+        setStudent({name: '', email: '', status: ''});
         setOpen(true);
       };
     
@@ -48,6 +48,7 @@ const EditStudent = (props)  => {
                 <DialogContent  style={{paddingTop: 20}} >
                     <TextField autoFocus fullWidth label="name" name="name" onChange={handleChange}  />
                     <TextField autoFocus fullWidth label="email" name="email" onChange={handleChange}  />
+                    <TextField autoFocus fullWidth label="status" name="status" onChange={handleChange}  />
                 </DialogContent>
                 <DialogActions>
                 <Button color="secondary" onClick={handleClose}>Cancel</Button>
