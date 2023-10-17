@@ -46,8 +46,8 @@ function AddStudent(props) {
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Add Student</DialogTitle>
             <DialogContent  style={{paddingTop: 20}} >
-                <TextField autoFocus fullWidth label="name" name="name" onChange={handleChange}  /> 
-                <TextField autoFocus fullWidth label="email" name="email" onChange={handleChange}  />  
+                <TextField autoFocus fullWidth label="name" name="name" id="name" onChange={handleChange}  /> 
+                <TextField autoFocus fullWidth label="email" name="email" id="email" onChange={handleChange}  />  
             </DialogContent>
             <DialogActions>
               <Button color="secondary" onClick={handleClose}>Cancel</Button>
