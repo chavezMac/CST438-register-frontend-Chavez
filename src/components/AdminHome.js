@@ -185,8 +185,8 @@ const AdminHome = ()  => {
                     <td>{row.email}</td>
                     <td>{row.statusCode}</td>
                     <td>{row.status}</td>
-                    <td><button type="button" margin="auto" onClick={dropStudent}>Drop</button></td>
-                    <td><button type="button" margin="auto" onClick={onEditClick}>Edit</button></td>
+                    <td><button type="button" margin="auto" id="drop" onClick={dropStudent}>Drop</button></td>
+                    <td><button type="button" margin="auto" id="edit" onClick={onEditClick}>Edit</button></td>
                     </tr>
                 ))}
             </tbody>
