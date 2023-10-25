@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AddStudent from './AddStudent';
 import {SERVER_URL} from '../constants';
-import {Link} from 'react-router-dom';
 import EditStudent from './EditStudent';
 
 const AdminHome = ()  => {
@@ -9,20 +8,20 @@ const AdminHome = ()  => {
   const [message, setMessage] = useState(' ');  // status message
   const [studentID, setStudentID] = useState(-1);  // status message
 
-  useEffect(() => {
-      // called once after intial render
-      fetchStudents();
-      }, [] )
+  const token = sessionStorage.getItem("jwt");
+
+  useEffect( () => {
+    fetchStudents();
+  }, [])
 
   
   
   const fetchStudents = () => {
   //TODO complete this method to fetch students and display list of students 
-    fetch('http://localhost:8080/student')
+    fetch(SERVER_URL + '/student')
     .then((response) => {return response.json();})
     .then((data) => {setStudents(data);})
     .catch((err) => {
-      console.log("exception fetchStudents "+err);
       setMessage("Exception."+err);
     } );
   }
@@ -49,7 +48,7 @@ const AdminHome = ()  => {
       }
 
       for(let i = 0; i < students.length; i++) {
-        if(students[i].email === student.email && students[i].id != studentID) {
+        if(students[i].email === student.email && students[i].id !== studentID) {
           setMessage('Error: Email already exists');
           return;
         }
@@ -80,11 +79,14 @@ const AdminHome = ()  => {
       const row_id = event.target.parentNode.parentNode.rowIndex - 1;
       console.log("drop student "+row_id);
       const student_id = students[row_id].id;
-
+      if(sessionStorage.getItem("jwt").includes("ADMIN")) {
+        console.log("Admin");
+      }
       if(window.confirm('Are you sure you want to drop this student?')) {
         fetch(`${SERVER_URL}/student/${student_id}`,
         {
           method: 'DELETE',
+          headers: {'Authorization': token}
         }
         )
         .then(res => {
@@ -92,10 +94,11 @@ const AdminHome = ()  => {
             console.log("dropStudent ok");
             setMessage("Student dropped.");
             fetchStudents();
-          }else if(res.status == 400){
+          }else if(res.status === 400){
             if(window.confirm("Do you want to force delete this student?")) {
               fetch(`${SERVER_URL}/student/${student_id}?force=yes`,
               {
+                headers: {'Authorization': token},
                 method: 'DELETE',
               }
               )
@@ -127,7 +130,7 @@ const AdminHome = ()  => {
       console.log("In ediStudent... "+ studentID);
       
       for(let i = 0; i < students.length; i++) {
-        if(students[i].email === student.email && students[i].id != studentID) {
+        if(students[i].email === student.email && students[i].id !== studentID) {
           setMessage('Error: Email already exists');
           return;
         }

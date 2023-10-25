@@ -37,7 +37,7 @@ const ShowSchedule = () => {
     const fetchCourses = (termId) => {
         const {year, semester} = SEMESTERS[termId];
         console.log("fetchCourses "+year+" "+semester);
-        fetch(`${SERVER_URL}/schedule?year=${year}&semester=${semester}`)
+        fetch(`http://localhost:8080/schedule?year=${year}&semester=${semester}`)
         .then((response) => { return response.json(); } )
         .then((data) => { setCourses(data); })
         .catch((err) =>  { 

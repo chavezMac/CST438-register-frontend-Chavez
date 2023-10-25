@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {SEMESTERS} from '../constants'
 
+
   /* 
    *  display list of terms (year, semester) from SEMESTERS list
    *  user selects from the list displayed and can view schedule
